@@ -1,0 +1,7 @@
+/home/hp/llvm-passes/build/CMakeFiles/intrinsics_gen.dir
+/home/hp/llvm-passes/build/CMakeFiles/omp_gen.dir
+/home/hp/llvm-passes/build/CMakeFiles/acc_gen.dir
+/home/hp/llvm-passes/build/CMakeFiles/RISCVTargetParserTableGen.dir
+/home/hp/llvm-passes/build/CMakeFiles/InstCounter.dir
+/home/hp/llvm-passes/build/CMakeFiles/edit_cache.dir
+/home/hp/llvm-passes/build/CMakeFiles/rebuild_cache.dir
