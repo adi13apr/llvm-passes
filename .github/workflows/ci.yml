@@ -1,0 +1,26 @@
+name: Build and test
+
+on: [push, pull_request]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install LLVM 18 and build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang-18 llvm-18-dev llvm-18-tools cmake ninja-build
+          pipx install lit
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Build
+        run: |
+          cmake -S . -B build -G Ninja \
+            -DCMAKE_CXX_COMPILER=clang++-18 \
+            -DLLVM_DIR=/usr/lib/llvm-18/lib/cmake/llvm
+          cmake --build build
+
+      - name: Run tests
+        run: lit -v test/
