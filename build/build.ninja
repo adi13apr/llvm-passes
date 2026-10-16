@@ -123,6 +123,38 @@ build libMyDCE.so: CXX_MODULE_LIBRARY_LINKER__MyDCE_ CMakeFiles/MyDCE.dir/MyDCE.
   TARGET_FILE = libMyDCE.so
   TARGET_PDB = MyDCE.so.dbg
 
+# =============================================================================
+# Object build statements for MODULE_LIBRARY target UnrollAdvisor
+
+
+#############################################
+# Order-only phony target for UnrollAdvisor
+
+build cmake_object_order_depends_target_UnrollAdvisor: phony || CMakeFiles/UnrollAdvisor.dir
+
+build CMakeFiles/UnrollAdvisor.dir/UnrollAdvisor.cpp.o: CXX_COMPILER__UnrollAdvisor_unscanned_ /home/hp/llvm-passes/UnrollAdvisor.cpp || cmake_object_order_depends_target_UnrollAdvisor
+  DEFINES = -DUnrollAdvisor_EXPORTS -D_GNU_SOURCE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS
+  DEP_FILE = CMakeFiles/UnrollAdvisor.dir/UnrollAdvisor.cpp.o.d
+  FLAGS = -std=gnu++17 -fPIC
+  INCLUDES = -isystem /usr/lib/llvm-18/include
+  OBJECT_DIR = CMakeFiles/UnrollAdvisor.dir
+  OBJECT_FILE_DIR = CMakeFiles/UnrollAdvisor.dir
+
+
+# =============================================================================
+# Link build statements for MODULE_LIBRARY target UnrollAdvisor
+
+
+#############################################
+# Link the shared module libUnrollAdvisor.so
+
+build libUnrollAdvisor.so: CXX_MODULE_LIBRARY_LINKER__UnrollAdvisor_ CMakeFiles/UnrollAdvisor.dir/UnrollAdvisor.cpp.o
+  OBJECT_DIR = CMakeFiles/UnrollAdvisor.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = libUnrollAdvisor.so
+  TARGET_PDB = UnrollAdvisor.so.dbg
+
 
 #############################################
 # Utility command for edit_cache
@@ -153,6 +185,8 @@ build InstCounter: phony libInstCounter.so
 
 build MyDCE: phony libMyDCE.so
 
+build UnrollAdvisor: phony libUnrollAdvisor.so
+
 # =============================================================================
 # Folder targets.
 
@@ -161,7 +195,7 @@ build MyDCE: phony libMyDCE.so
 #############################################
 # Folder: /home/hp/llvm-passes/build
 
-build all: phony libInstCounter.so libMyDCE.so
+build all: phony libInstCounter.so libMyDCE.so libUnrollAdvisor.so
 
 # =============================================================================
 # Built-in targets

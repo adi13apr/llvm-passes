@@ -1,3 +1,4 @@
-2.434611e-02 inst-counter.ll
-3.066134e-02 max.ll
-2.536368e-02 dce.ll
+6.675887e-02 inst-counter.ll
+6.819701e-02 max.ll
+6.690884e-02 dce.ll
+6.858873e-02 unroll-advisor.ll
