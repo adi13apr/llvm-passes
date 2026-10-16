@@ -1,1 +1,3 @@
--5.088806e-01 inst-counter.ll
+2.199054e-02 inst-counter.ll
+2.197480e-02 max.ll
+2.219534e-02 dce.ll

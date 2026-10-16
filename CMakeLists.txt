@@ -20,3 +20,5 @@ endif()
 
 # A MODULE library is a plugin loaded at runtime by `opt`
 add_library(InstCounter MODULE InstCounter.cpp)
+
+add_library(MyDCE MODULE MyDCE.cpp)

@@ -19,3 +19,6 @@ config.environment["PATH"] = "/usr/lib/llvm-18/bin:" + os.environ["PATH"]
 config.substitutions.append(
     ("%plugin", os.path.join(config.test_source_root, "..", "build", "libInstCounter.so"))
 )
+config.substitutions.append(
+    ("%dceplugin", os.path.join(config.test_source_root, "..", "build", "libMyDCE.so"))
+)
