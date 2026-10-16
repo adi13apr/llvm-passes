@@ -16,24 +16,32 @@ namespace {
 
 struct MyDCEPass : PassInfoMixin<MyDCEPass> {
   PreservedAnalyses run(Function &F, FunctionAnalysisManager &) {
+    bool Changed = false;
     SmallVector<Instruction *, 16> Dead;
 
-    // Collect instructions whose result is unused and that have no side
-    // effects.
-    for (BasicBlock &BB : F) {
-      for (Instruction &I : BB) {
-        if (I.use_empty() && !I.isTerminator() && !I.mayHaveSideEffects())
-          Dead.push_back(&I);
+    // Repeat until a full round finds nothing to delete (a fixed point).
+    // Erasing an instruction can make the instructions it used dead too.
+    do {
+      Dead.clear();
+
+      // Collect instructions whose result is unused and that have no side
+      // effects.
+      for (BasicBlock &BB : F) {
+        for (Instruction &I : BB) {
+          if (I.use_empty() && !I.isTerminator() && !I.mayHaveSideEffects())
+            Dead.push_back(&I);
+        }
       }
-    }
 
-    // Erase after iterating, so we never invalidate the loop's iterator.
-    for (Instruction *I : Dead)
-      I->eraseFromParent();
+      // Erase after iterating, so we never invalidate the loop's iterator.
+      for (Instruction *I : Dead)
+        I->eraseFromParent();
 
-    if (Dead.empty())
-      return PreservedAnalyses::all();
-    return PreservedAnalyses::none();
+      if (!Dead.empty())
+        Changed = true;
+    } while (!Dead.empty());
+
+    return Changed ? PreservedAnalyses::none() : PreservedAnalyses::all();
   }
 };
 
