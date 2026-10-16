@@ -6,7 +6,7 @@ Two LLVM passes written as out-of-tree plugins for LLVM 18's new pass manager, w
 |------|------|--------------|
 | `inst-counter` | Analysis | Prints the number of instructions in each function |
 | `my-dce` | Transformation | Removes instructions whose results are unused and that have no side effects |
-
+| `unroll-advisor` | Analysis | Reports whether a simple heuristic would fully unroll, partially unroll, or not unroll each loop |
 ## Requirements
 
 - Linux (tested on Ubuntu 24.04 under WSL)
@@ -48,6 +48,11 @@ opt-18 -load-pass-plugin=./build/libInstCounter.so \
   -passes=inst-counter,my-dce,inst-counter -disable-output input.ll
 ```
 
+Get unrolling advice for every loop:
+```bash
+opt-18 -load-pass-plugin=./build/libUnrollAdvisor.so \
+  -passes=unroll-advisor -disable-output input.ll
+```
 ## Tests
 
 ```bash
@@ -59,7 +64,7 @@ lit -v test/
 | `inst-counter.ll` | Counts a single-block function; skips declarations |
 | `max.ll` | Counts instructions across multiple basic blocks |
 | `dce.ll` | Removes a dead instruction and a chain of dead instructions; keeps a `store` and a call to an unknown function |
-
+| `unroll-advisor.ll` | One loop for each decision: known trip count and small body (full), unknown trip count (partial), large body (no unroll) |
 Tests use hand-written IR rather than Clang output, so they keep passing when Clang's code generation changes between versions.
 
 ## Design decisions
@@ -71,6 +76,8 @@ Tests use hand-written IR rather than Clang output, so they keep passing when Cl
 **What is never deleted.** An instruction is removed only if its result is unused, it is not a terminator (such as `ret` or `br`), and it has no side effects. This keeps stores, calls to functions that may have side effects, and other instructions whose removal would change program behavior.
 
 **Reporting changes correctly.** `inst-counter` only reads the IR, so it returns `PreservedAnalyses::all()`. `my-dce` returns `PreservedAnalyses::none()` only when it actually removed something, so LLVM knows when cached analyses must be recomputed.
+
+**Unrolling heuristic.** `unroll-advisor` uses LLVM's `LoopInfo` to find loops and `ScalarEvolution` to compute constant trip counts. Full unrolling copies the loop body once per iteration, so it is only recommended when the trip count is known and trip count × body size ≤ 64 instructions. Partial unrolling by 4 copies the body only four times, so it is recommended for small bodies (≤ 16 instructions) even when the trip count is unknown. Larger loops are left alone, since unrolling them would increase code size more than it saves in loop overhead.
 
 ## Limitations and future work
 
