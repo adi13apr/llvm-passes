@@ -1,5 +1,5 @@
 # llvm-passes
-
+![CI](https://github.com/adi13apr/llvm-passes/actions/workflows/ci.yml/badge.svg)
 Two LLVM passes written as out-of-tree plugins for LLVM 18's new pass manager, with lit and FileCheck tests.
 
 | Pass | Type | What it does |
