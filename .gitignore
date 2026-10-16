@@ -1,1 +1,2 @@
-build/test/example.ll
+build/
+test/example.ll
