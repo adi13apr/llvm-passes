@@ -22,3 +22,4 @@ endif()
 add_library(InstCounter MODULE InstCounter.cpp)
 
 add_library(MyDCE MODULE MyDCE.cpp)
+add_library(UnrollAdvisor MODULE UnrollAdvisor.cpp)

@@ -22,3 +22,6 @@ config.substitutions.append(
 config.substitutions.append(
     ("%dceplugin", os.path.join(config.test_source_root, "..", "build", "libMyDCE.so"))
 )
+config.substitutions.append(
+    ("%unrollplugin", os.path.join(config.test_source_root, "..", "build", "libUnrollAdvisor.so"))
+)
