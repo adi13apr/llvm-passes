@@ -22,3 +22,25 @@ entry:
   %y = add i32 %x, 1
   ret i32 %a
 }
+; A store has no result, but it writes to memory, so it must be kept.
+; CHECK-LABEL: define void @keep_store(ptr %p)
+; CHECK: store i32 5, ptr %p
+; CHECK: ret void
+define void @keep_store(ptr %p) {
+entry:
+  store i32 5, ptr %p
+  ret void
+}
+
+declare i32 @log(i32)
+
+; A call to an unknown function may have side effects, so it must be kept
+; even though its result is unused.
+; CHECK-LABEL: define void @keep_call(i32 %a)
+; CHECK: call i32 @log(i32 %a)
+; CHECK: ret void
+define void @keep_call(i32 %a) {
+entry:
+  %r = call i32 @log(i32 %a)
+  ret void
+}
