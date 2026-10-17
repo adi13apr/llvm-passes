@@ -1,6 +1,6 @@
 # llvm-passes
-![CI](https://github.com/adi13apr/llvm-passes/actions/workflows/ci.yml/badge.svg)
-Two LLVM passes written as out-of-tree plugins for LLVM 18's new pass manager, with lit and FileCheck tests.
+[![CI](https://github.com/adi13apr/llvm-passes/actions/workflows/ci.yml/badge.svg)](https://github.com/adi13apr/llvm-passes/actions)
+Three LLVM passes written as out-of-tree plugins for LLVM 18's new pass manager, with lit and FileCheck tests.
 
 | Pass | Type | What it does |
 |------|------|--------------|
@@ -23,7 +23,7 @@ cmake -S . -B build -G Ninja \
 cmake --build build
 ```
 
-This produces two plugins: `build/libInstCounter.so` and `build/libMyDCE.so`.
+This produces three plugins: build/libInstCounter.so, build/libMyDCE.so, and build/libUnrollAdvisor.so.
 
 ## Usage
 
@@ -65,6 +65,7 @@ lit -v test/
 | `max.ll` | Counts instructions across multiple basic blocks |
 | `dce.ll` | Removes a dead instruction and a chain of dead instructions; keeps a `store` and a call to an unknown function |
 | `unroll-advisor.ll` | One loop for each decision: known trip count and small body (full), unknown trip count (partial), large body (no unroll) |
+
 Tests use hand-written IR rather than Clang output, so they keep passing when Clang's code generation changes between versions.
 
 ## Design decisions
